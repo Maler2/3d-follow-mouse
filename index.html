@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>3D follow mouse</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+    }
+    #canvas {
+      width: 100%;
+      height: 100vh;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script>
+    // Buat canvas dan konteks 2D
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Atur ukuran canvas
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Buat object 3D
+    const obj = {
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      z: 0,
+      size: 50,
+      color: 'red',
+      sedih: false
+    };
+
+    // Fungsi untuk menggambar object 3D
+    function drawObj() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.arc(obj.x, obj.y, obj.size, 0, 2 * Math.PI);
+      ctx.fillStyle = obj.sedih ? 'blue' : 'red';
+      ctx.fill();
+    }
+
+    // Fungsi untuk mengupdate posisi object 3D
+    function updateObj(event) {
+      obj.x = event.clientX;
+      obj.y = event.clientY;
+      obj.sedih = false;
+      drawObj();
+    }
+
+    // Fungsi untuk membuat object 3D sedih ketika mouse hilang
+    function objSedih() {
+      obj.sedih = true;
+      drawObj();
+    }
+
+    // Tambahkan event listener untuk mengupdate posisi object 3D
+    canvas.addEventListener('mousemove', updateObj);
+
+    // Tambahkan event listener untuk membuat object 3D sedih ketika mouse hilang
+    canvas.addEventListener('mouseout', objSedih);
+
+    // Gambar object 3D pertama kali
+    drawObj();
+  </script>
+</body>
+</html>
